@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car Gallery</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.car {
+  border: 2px solid #333;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.car img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.car h2 {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.car p {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.car-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.car-details a {
+  background-color: #4CAF50;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.navigation {
+  background-color: #151E3D;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navigation a {
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.navigation a:hover {
+  background-color: #555;
+}
+
+.front-page-container {
+  background-image: url('https://i.pinimg.com/originals/91/10/60/911060b63584e162abf43f77a7fd15e3.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  text-align: center;
+  padding: 50px 0;
+  font-family: 'Roboto Slab', serif; 
+  opacity: 0.7; 
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.front-page-container h1 {
+  font-size: 36px;
+  margin-bottom: 200px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.cart-icon {
+  font-size: 24px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.about-us {
+  background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20210912/pngtree-car-glowing-lines-background-image_863713.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 50px 20px;
+  color: white;
+  height: 100vh; 
+}
+
+.about-us h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  font-family: 'Roboto Slab', serif;
+}
+
+.about-us-content {
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.website-name {
+  font-weight: bold;
+  color: #FFD700;
+}
+  
+.contact-us {
+  background-image: url('https://i.pinimg.com/originals/45/25/35/45253597e5e09d5fdd18dcee756d7051.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 50px 20px;
+  color: white;
+  height: 100vh;
+}
+
+.contact-content {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-form {
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.contact-form h3 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.contact-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: none;
+}
+
+.contact-form textarea {
+  resize: none;
+}
+
+.contact-form button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.contact-form button:hover {
+  background-color: #45a049;
+}
+
+</style>
+</head>
+<body>
+<div class="navigation">
+  <div>
+    <a href="#home">Home</a>
+    <a href="#about">About Us</a>
+    <a href="#products">Products</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <h2 style="color: gold; margin-left: 1000px; font-size: 18px">Velocity</h2>
+  <a href="#" id="cartButton"><i class="fas fa-shopping-cart cart-icon"></i></a>
+</div>
+
+<div id="home" class="front-page-container">
+  <h1>Drive Dreams, Find Yours Here</h1>
+</div>
+
+<div id="about" class="about-us">
+  <h2>About Us</h2>
+  <div class="about-us-content">
+    <p>Welcome to <span class="website-name">Velocity</span>! We are passionate about cars and committed to providing car enthusiasts with the best experience. Whether you're 
+looking for the latest models, classic cars, or automotive accessories, we've got you covered.</p>
+    <p>At <span class="website-name">Velocity</span>, we strive to offer a wide range of vehicles to suit every taste and budget. Our team of experts carefully curates our inventory 
+to ensure that only the finest cars make it onto our platform.</p>
+    <p>We believe in transparency, integrity, and exceptional customer service. Our goal is to make your car buying journey seamless and enjoyable. Whether you're a first-time buyer 
+or a seasoned collector, we're here to assist you every step of the way.</p>
+    <p>Explore our collection, find your dream car, and let us help you drive away with confidence. Thank you for choosing <span class="website-name">Velocity</span>!</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="car">
+    <img src="https://cdn.carbuzz.com/gallery-images/1600/1211000/900/1211930.jpg" alt="Car 1">
+    <h2>NISSAN SKYLINE GT-R</h2>
+    <div class="car-details">
+      <p>Price: ₱25,500,000</p>
+      <a href="#" onclick="addToCart('NISSAN SKYLINE GT-R', 25500000)">Add to Cart</a>
+    </div>
+  </div>
+  <div class="car">
+    <img src="https://cdn.dealeraccelerate.com/ab/1/1201/51233/790x1024/1970-chevrolet-chevelle-ss" alt="Car 2">
+    <h2>1970 CHEVROLET CHEVELLE</h2>
+    <div class="car-details">
+      <p>Price: ₱20,000,000</p>
+      <a href="#" onclick="addToCart('1970 CHEVROLET CHEVELLE', 20000000)">Add to Cart</a>
+    </div>
+  </div>
+  <div class="car">
+    <img src="https://robbreport.com/wp-content/uploads/2021/05/fastsupra.jpg?w=1000" alt="Car 3">
+    <h2>1994 SUPRA MK IV</h2>
+    <div class="car-details">
+      <p>Price: ₱15,500,000</p>
+      <a href="#" onclick="addToCart('1994 SUPRA MK IV', 15500000)">Add to Cart</a>
+    </div>
+  </div>
+  <div class="car">
+    <img src="https://s7d9.scene7.com/is/image/wheelpros/tsw-bathurst-17x9-18x9.5-silver%20w%20mirror%20cut%20face-1993%20acura%20nsx%2010" alt="Car 4">
+    <h2>1993 ACURA NSX</h2>
+    <div class="car-details">
+      <p>Price: ₱13,500,000</p>
+      <a href="#" onclick="addToCart('1993 ACURA NSX', 13500000)">Add to Cart</a>
+    </div>
+  </div>
+  <div class="car">
+    <img src="https://images.drive.com.au/driveau/image/upload/c_fill,f_auto,g_auto,h_1080,q_auto:good,w_1920/cms/uploads/bnqc4vza0qnp980jebw4" alt="Car 5">
+    <h2>FORD MUSTANG GT</h2>
+    <div class="car-details">
+      <p>Price: ₱35,000,000</p>
+      <a href="#" onclick="addToCart('FORD MUSTANG GT', 35000000)">Add to Cart</a>
+    </div>
+  </div>
+  <div class="car">
+    <img src="https://i.ebayimg.com/images/g/BMQAAOSwouNix8Wc/s-l1600.jpg" alt="Car 6">
+    <h2>MAZDA RX7 FD</h2>
+    <div class="car-details">
+      <p>Price: ₱7,600,000</p>
+      <a href="#" onclick="addToCart('MAZDA RX7 FD', 7600000)">Add to Cart</a>
+    </div>
+  </div>
+  <div class="car">
+    <img src="https://live.staticflickr.com/7280/13660907113_ed09fab9e7_b.jpg" alt="Car 7">
+    <h2>LYKAN HYPERSPORT</h2>
+    <div class="car-details">
+      <p>Price: ₱30,800,000</p>
+      <a href="#" onclick="addToCart('LYKAN HYPERSPORT', 30800000)">Add to Cart</a>
+    </div>
+  </div>
+  <div class="car">
+    <img src="https://p.turbosquid.com/ts-thumb/B3/cpoXsm/9z/rr_0000/jpg/1671405815/1920x1080/fit_q87/eb352bb7dd31bb9afa9422b6a3acb8da41984aeb/rr_0000.jpg" alt="Car 8">
+    <h2>1970 DODGE CHARGER</h2>
+    <div class="car-details">
+      <p>Price: ₱8,000,000</p>
+      <a href="#" onclick="addToCart('1970 DODGE CHARGER', 8000000)">Add to Cart</a>
+    </div>
+  </div>
+  <div class="car">
+    <img src="https://www.autodeal.com.ph/custom/blog-post/header/toyota-supra-manual-64dc4d6ec72b6.jpg" alt="Car 9">
+    <h2>TOYOTA SUPRA</h2>
+    <div class="car-details">
+      <p>Price: ₱13,400,000</p>
+      <a href="#" onclick="addToCart('TOYOTA SUPRA', 13400000)">Add to Cart</a>
+    </div>
+  </div>
+</div>
+
+<div id="contact" class="contact-us">
+  <div class="contact-content">
+    <h2>Contact Us</h2>
+    <p>We'd love to hear from you! Reach out to us with any questions, comments, or inquiries.</p>
+  </div>
+  <div class="contact-form">
+    <h3>Contact Form</h3>
+    <form>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</div>
+
+<div id="cartModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Your Cart</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody id="cartList"></tbody>
+    </table>
+    <p>Total Price: <span id="totalPrice">₱0</span></p>
+    <div>
+      <label for="buyerName">Name:</label>
+      <input type="text" id="buyerName" required><br><br>
+      <label for="buyerContact">Contact No:</label>
+      <input type="text" id="buyerContact" required><br><br>
+      <label for="buyerAddress">Address:</label>
+      <input type="text" id="buyerAddress" required><br><br>
+    </div>
+    <button onclick="confirmPurchase()">Confirm Purchase</button>
+  </div>
+</div>
+<script>
+
+const cart = [];
+
+function addToCart(name, price) {
+  cart.push({ name, price });
+  alert(`${name} added to cart`);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const cartButton = document.getElementById('cartButton');
+  const modal = document.getElementById('cartModal');
+  const closeModal = document.getElementsByClassName('close')[0];
+  const confirmButton = document.querySelector('.modal-content button');
+  const buyerNameInput = document.getElementById('buyerName');
+  const buyerContactInput = document.getElementById('buyerContact');
+  const buyerAddressInput = document.getElementById('buyerAddress');
+  const totalPriceDisplay = document.getElementById('totalPrice');
+
+  function updateTotalPrice() {
+    const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price), 0).toLocaleString();
+    totalPriceDisplay.textContent = '₱' + totalPrice;
+  }
+
+  document.querySelectorAll('.car-details a').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault(); 
+      const name = this.parentNode.previousElementSibling.textContent;
+      const price = this.previousElementSibling.textContent.replace('Price: ₱', '').replace(/,/g, ''); 
+      updateTotalPrice(); 
+    });
+  });
+
+  cartButton.addEventListener('click', function() {
+    const cartList = document.getElementById('cartList');
+    cartList.innerHTML = '';
+    cart.forEach(item => {
+      const row = document.createElement('tr');
+      const itemName = document.createElement('td');
+      const itemPrice = document.createElement('td');
+      itemName.textContent = item.name;
+      itemPrice.textContent = '₱' + parseFloat(item.price).toLocaleString();
+      row.appendChild(itemName);
+      row.appendChild(itemPrice);
+      cartList.appendChild(row);
+    });
+    modal.style.display = 'block';
+  });
+
+  closeModal.addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+
+  confirmButton.addEventListener('click', function() {
+    const name = buyerNameInput.value.trim();
+    const contact = buyerContactInput.value.trim();
+    const address = buyerAddressInput.value.trim();
+    if (name && contact && address && cart.length > 0) {
+      const orderSummary = cart.map(item => `${item.name} - ₱${parseFloat(item.price).toLocaleString()}`).join('\n');
+      const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price), 0).toLocaleString();
+      alert(`Thank you for your purchase, ${name}!\n\nOrder Summary:\n${orderSummary}\n\nTotal Price: ₱${totalPrice}\n\nWe will contact you at ${contact} to confirm the delivery at ${address}`);
+      cart.length = 0; 
+      modal.style.display = 'none'; 
+      buyerNameInput.value = ''; 
+      buyerContactInput.value = '';
+      buyerAddressInput.value = '';
+      totalPriceDisplay.textContent = '₱0'; 
+    } else {
+      alert('Please fill in all required fields and make sure there are items in the cart.');
+    }
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+
+  document.querySelector('.contact-form button[type="submit"]').addEventListener('click', function(event) {
+    event.preventDefault();
+    alert('Your message has been sent!');
+
+  });
+
+});
+</script>
+
+</body>
+</html>
